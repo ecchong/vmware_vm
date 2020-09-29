@@ -18,9 +18,6 @@
     folder: "{{ vmware_vm_vm.folder }}"
     resource_pool: "{{ vmware_vm_vm.resource_pool | default(omit) }}"
     name: "{{ vmware_vm_vm.name }}"
-    hardware:
-      num_cpu: "{{ vmware_vm_vm.num_cpu | default(omit) | int }}"
-      memory_mb: "{{ vmware_vm_vm.memory_mb | default(omit) | int }}"
     wait_for_ip_address: "{{ vmware_vm_vm.wait_for_ip_address | default(omit) }}"
     wait_for_customization: yes
     customization: "{{ vmware_vm_vm.customization | default(omit) }}"
@@ -30,9 +27,9 @@
   register: vmware_vm_output
   delegate_to: localhost
 
-- name: Add VM to group
-  add_host:
-    groups: "{{ vmware_vm_groups }}"
-    name: "{{ vmware_vm_vm.name }}"
-    ansible_host: "{{ vmware_vm_output.instance.ipv4 | default(omit) }}"
-  when: vmware_vm_groups is defined
+#- name: Add VM to group
+#  add_host:
+#    groups: "{{ vmware_vm_groups }}"
+#    name: "{{ vmware_vm_vm.name }}"
+#    ansible_host: "{{ vmware_vm_output.instance.ipv4 | default(omit) }}"
+#  when: vmware_vm_groups is defined
