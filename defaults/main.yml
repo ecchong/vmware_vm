@@ -3,16 +3,16 @@
 
 # Default vCenter Info
 vmware_vm_vcenter:
-  hostname: vcsa.lab.home
-  username:
-  password:
+  hostname: vcenter.example.com
+  username: administrator@vsphere.local
+  password: secret
   validate_certs: false
 
 # Default VM Info
 vmware_vm_vm:
-  datacenter: LAB
+  datacenter: "My Datacenter"
   name: new_vm
-  cluster: nuc1.lab.home
+  cluster: "my_cluster"
   template: RHEL7
   network:
   - name: "VM Network"
