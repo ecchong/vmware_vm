@@ -24,7 +24,9 @@
     wait_for_ip_address: "{{ vmware_vm_vm.wait_for_ip_address | default(omit) }}"
     wait_for_customization: yes
     customization: "{{ vmware_vm_vm.customization | default(omit) }}"
+    customization_spec: "{{ vmware_vm_vm.customization_spec | default(omit) }}"
     hardware: "{{ vmware_vm_vm.hardware | default(omit) }}"
+    disk: "{{ vmware_vm_vm.disk | default(omit) }}"
   register: vmware_vm_output
   delegate_to: localhost
 
