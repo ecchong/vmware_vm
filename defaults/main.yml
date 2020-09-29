@@ -1,0 +1,30 @@
+---
+# defaults file for vmware_vm
+
+# Default vCenter Info
+vmware_vm_vcenter:
+  hostname: vcsa.lab.home
+  username:
+  password:
+  validate_certs: false
+
+# Default VM Info
+vmware_vm_vm:
+  datacenter: LAB
+  name: new_vm
+  cluster: nuc1.lab.home
+  template: RHEL7
+  network:
+  - name: "VM Network"
+    type: static
+    ip: 192.168.0.123
+    netmask: 255.255.255.0
+    gateway: 192.168.0.1
+    dvswitch_name: "VM Network"
+  folder: /
+  resource_pool: 
+  state: poweredo#n
+
+# Default Ansible Group Info
+vmware_vm_groups:
+- vmware_vm_group

@@ -1,0 +1,17 @@
+---
+# tasks file for vmware_vm
+- name: Delete VM via vCenter
+  vmware_guest:
+    hostname: "{{ vmware_vm_vcenter.hostname }}"
+    username: "{{ vmware_vm_vcenter.username }}"
+    password: "{{ vmware_vm_vcenter.password }}"
+    validate_certs: "{{ vmware_vm_center.validate_certs | default(false) }}"
+    datacenter: "{{ vmware_vm_vm.datacenter }}"
+    cluster: "{{ vmware_vm_vm.cluster }}"
+    folder: "{{ vmware_vm_vm.folder }}"
+    resource_pool: "{{ vmware_vm_vm.resource_pool | default(omit) }}"
+    name: "{{ vmware_vm_vm.name }}"
+    state: absent
+    force: true
+  register: vmware_vm_output
+  delegate_to: localhost

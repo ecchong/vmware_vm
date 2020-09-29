@@ -1,0 +1,36 @@
+---
+- name: Pause randomly to avoid MAC address conflict
+  shell: "sleep `grep -m1 -ao '[0-9]' /dev/urandom | sed s/0/10/ | head -n1`"
+  delegate_to: localhost
+
+# tasks file for vmware_vm
+- name: Deploy VM via vCenter
+  vmware_guest:
+    hostname: "{{ vmware_vm_vcenter.hostname }}"
+    username: "{{ vmware_vm_vcenter.username }}"
+    password: "{{ vmware_vm_vcenter.password }}"
+    validate_certs: "{{ vmware_vm_vcenter.validate_certs | default(false) }}"
+    state: "{{ vmware_vm_vm.state | default('poweredoff') }}"
+    datacenter: "{{ vmware_vm_vm.datacenter }}"
+    cluster: "{{ vmware_vm_vm.cluster }}"
+    template: "{{ vmware_vm_vm.template }}"
+    networks: "{{ vmware_vm_vm.network }}"
+    folder: "{{ vmware_vm_vm.folder }}"
+    resource_pool: "{{ vmware_vm_vm.resource_pool | default(omit) }}"
+    name: "{{ vmware_vm_vm.name }}"
+    hardware:
+      num_cpu: "{{ vmware_vm_vm.num_cpu | default(omit) | int }}"
+      memory_mb: "{{ vmware_vm_vm.memory_mb | default(omit) | int }}"
+    wait_for_ip_address: "{{ vmware_vm_vm.wait_for_ip_address | default(omit) }}"
+    wait_for_customization: yes
+    customization: "{{ vmware_vm_vm.customization | default(omit) }}"
+    hardware: "{{ vmware_vm_vm.hardware | default(omit) }}"
+  register: vmware_vm_output
+  delegate_to: localhost
+
+- name: Add VM to group
+  add_host:
+    groups: "{{ vmware_vm_groups }}"
+    name: "{{ vmware_vm_vm.name }}"
+    ansible_host: "{{ vmware_vm_output.instance.ipv4 | default(omit) }}"
+  when: vmware_vm_groups is defined
